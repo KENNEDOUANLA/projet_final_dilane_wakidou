@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import {useState} from 'react'
 
 export default function Home() {
+  const [checkbox, stateCheckbox] = useState(false)
   return (
     <div className={styles.container}>
       <Head>
@@ -11,20 +13,20 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <nav className={styles.navbar}>
-        <div>
+      <nav className="navbar">
+        <div className={styles.logo}>
           <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           <span>RIDE</span>
         </div>
         <div></div>
         {/* COMPONENT */}
-        <button className={styles.button}>Connexion admin</button>
+        <button className="button">Connexion admin</button>
       </nav>
-      <div className={styles.headerImg}></div>
+      <div className={styles.headerImg}>
+        <p>▷ Depuis 2008, RIDE, agence de location de voitures de luxe propose ses services partout en France (Paris, Monaco, Nice, Cannes, Saint-Tropez, Courchevel, Saint-Moritz...).Notre expérience est à votre service pour répondre à toutes vos demandes</p>
+      </div>
       <div className={styles.formDivContainer}>
         <div className={styles.formDiv}>
-          <p>▷ Depuis 2008, RIDE, agence de location de voitures de luxe propose ses services partout en France (Paris, Monaco, Nice, Cannes, Saint-Tropez, Courchevel, Saint-Moritz...).Notre expérience est à votre service pour répondre à toutes vos demandes</p>
-          <hr />
           <span className={styles.formDivSpan}>Inscription</span>
           <p>Je suis :</p>
           <div>
@@ -40,11 +42,11 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.formDivInputsDiv}>
-            <input type="text" className={styles.formDivInputs} placeholder="Nom" />
-            <input type="text" className={styles.formDivInputs} placeholder="Prénom" />
-            <input type="text" className={styles.formDivInputs} placeholder="E-mail" />
-            <input type="text" className={styles.formDivInputs} placeholder="Numéro de téléphone" />
-            <select className={styles.formDivInputs} placeholder="">
+            <input type="text" placeholder="Nom" />
+            <input type="text" placeholder="Prénom" />
+            <input type="text" placeholder="E-mail" />
+            <input type="text" placeholder="Numéro de téléphone" />
+            <select placeholder="">
               <option value="">aa</option>
               <option value="">aa</option>
             </select>
@@ -54,16 +56,16 @@ export default function Home() {
             <span>j’atteste que je possède un permis de conduire valide.</span>
           </div>
           {/* COMPONENT */}
-          <button className={styles.button}>Demander mon inscription</button>
+          <button className="button">Demander mon inscription</button>
         </div>
       </div>
 
-      <footer className={styles.footer}>
+      <footer className="footer">
         <ul>
           <li>Contact</li>
           <li>Conditions généralespdf</li>
         </ul>
-        <p className={styles.footerP}>RIDE 2022 - tout droits reservés</p>
+        <p>RIDE 2022 - tout droits reservés</p>
       </footer>
 
     </div>

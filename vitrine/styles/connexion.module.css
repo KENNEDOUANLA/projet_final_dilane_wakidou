@@ -1,0 +1,13 @@
+.formDiv {
+    width: 40%;
+    margin: 5rem auto;
+}
+.formDiv * {
+    width: 100%;
+}
+
+@media screen and (max-width: 426px) {
+    .formDiv {
+        width: 90%;
+    }
+}
