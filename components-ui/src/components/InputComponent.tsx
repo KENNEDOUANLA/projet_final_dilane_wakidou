@@ -1,5 +1,4 @@
 import React,{useState} from "react";
-import "../scss/Input.css"
 type InputComponentProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement

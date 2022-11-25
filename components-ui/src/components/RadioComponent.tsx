@@ -1,5 +1,5 @@
 import React from "react";
-import "../scss/Radio.css"
+
 type RadioComponentProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement

@@ -65,4 +65,57 @@
   width: 21px !important;
 }
 
+.component-ui-select {
+  background-color: #F9F9F9;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 15px;
+  justify-content: center;
+  border-radius: 10px 10px 0 0;
+  position: relative;
+}
+.component-ui-select .component-ui-select-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.component-ui-select .component-ui-select-result .component-ui-select-result-text {
+  display: flex;
+  flex-direction: column;
+}
+.component-ui-select .component-ui-select-result .component-ui-select-result-text .component-ui-select-span {
+  color: #666565;
+  margin-left: 10px;
+}
+.component-ui-select .component-ui-select-result .component-ui-select-result-text .component-ui-select-span-value {
+  margin-left: 10px;
+  font: normal normal normal 18px/12px "Abel";
+  color: rgba(192, 0, 0, 0.8);
+}
+.component-ui-select .hide {
+  display: none;
+}
+.component-ui-select .component-ui-select-items {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-top: 0;
+  border-bottom: 0;
+}
+.component-ui-select .component-ui-select-items .component-ui-select-items-span {
+  border-bottom: 1px solid #eee;
+  padding: 7px 20px;
+}
+.component-ui-select .component-ui-select-items .component-ui-select-items-span:hover {
+  background-color: #F9F9F9;
+}
+
 /*# sourceMappingURL=index.css.map */
