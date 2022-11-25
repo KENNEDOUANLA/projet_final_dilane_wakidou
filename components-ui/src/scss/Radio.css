@@ -1,0 +1,16 @@
+.component-ui-radio {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.component-ui-radio .component-ui-radio-span {
+  color: #666565;
+  margin-left: 10px;
+}
+.component-ui-radio .component-ui-radio-input {
+  margin: 0;
+  height: 20px !important;
+  width: 21px !important;
+}
+
+/*# sourceMappingURL=Radio.css.map */

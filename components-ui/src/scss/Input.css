@@ -1,0 +1,28 @@
+.component-ui-input {
+  background-color: #F9F9F9;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+}
+.component-ui-input .component-ui-input-span {
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 0.2rem;
+  font: normal normal 500 16px/12px "Roboto";
+}
+.component-ui-input .component-ui-input-input {
+  border: 0;
+  background-color: #F9F9F9;
+  height: 25px;
+  font: normal normal normal 18px/12px "Abel";
+  color: rgba(192, 0, 0, 0.8);
+}
+.component-ui-input .component-ui-input-input:focus {
+  outline: none;
+}
+
+.component-ui-input-active {
+  border-bottom: 2px solid black;
+}
+
+/*# sourceMappingURL=Input.css.map */

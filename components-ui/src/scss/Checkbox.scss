@@ -1,0 +1,15 @@
+.component-ui-checkbox{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .component-ui-checkbox-span{
+    font-family: 'Abel';
+    font-size: small;
+    margin-left: 10px;
+  }
+  .component-ui-checkbox-input{
+      margin: 0;
+      height: 18px !important;
+      width: 18px !important;
+  }
+}

@@ -23,7 +23,10 @@
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "sass:watch": "sass -w src",
+    "yalc:build": "npm run sass:build && npm run build &&  yalc publish --private",
+    "sass:build": "sass src/index.css dist/index.css"
   },
   "peerDependencies": {
     "react": "^16.0.0"
@@ -72,5 +75,7 @@
   "files": [
     "dist"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "node-sass": "^8.0.0"
+  }
 }
