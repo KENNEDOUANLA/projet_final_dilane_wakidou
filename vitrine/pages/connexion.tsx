@@ -22,7 +22,7 @@ export default function Connexion() {
       </nav>
 
       <div className={styles.formDiv}>
-        <span>Retour</span>
+        <span>&larr; Retour</span>
         <form action="">
           <p>Connexion</p>
           <input type="text" placeholder='Identifiant' />
