@@ -5,9 +5,47 @@
 .formDiv * {
     width: 100%;
 }
-
+.logo_image{
+  height: inherit !important;
+  width: auto !important;
+}
+.logo{
+  height: inherit;
+}
 @media screen and (max-width: 426px) {
     .formDiv {
         width: 90%;
     }
+}
+
+/* new css */
+
+.formcontent{
+margin-top: 1rem;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 13%) 0.7px 0.7px 22px 0px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 320px;
+}
+.formcontentTitle{
+    color: rgb(192, 0, 0);
+    font: normal normal 600 21px/25px 'Roboto';
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.back{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logoName{
+    font: normal normal bold 30px 'Bayon';
 }

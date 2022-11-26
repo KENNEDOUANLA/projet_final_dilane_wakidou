@@ -1,8 +1,20 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/connexion.module.css'
+import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "components-ui"
+import { useState } from 'react'
+import { type } from 'os'
 
+type User = {
+  login: string,
+  password:string
+}
 export default function Connexion() {
+  const [user, setUser] = useState<User>({ login:"", password:"" });
+  const HandleClick = (e: any) => {
+    e.preventDefault();
+    console.log("user", user);
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -13,21 +25,22 @@ export default function Connexion() {
 
       <nav className="navbar">
         <div className={styles.logo}>
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          <span>RIDE</span>
+          <Image src="/logo_eval.png" alt="Vercel Logo" className={styles.logo_image} width={100} height={200}/>
         </div>
         <div></div>
-        {/* COMPONENT */}
-        <button className="button">Connexion admin</button>
+        <ButtonComponent>Connexion admin</ButtonComponent>
       </nav>
 
       <div className={styles.formDiv}>
-        <span>&larr; Retour</span>
-        <form action="">
-          <p>Connexion</p>
-          <input type="text" placeholder='Identifiant' />
-          <input type="password" placeholder='Mot de passe' />
-          <button className="button">Connexion</button>
+        <div className={styles.back}>
+          <span style={{color:"rgb(192, 0, 0)"}}>&larr;</span><span> Retour</span>
+        </div>
+        
+        <form action="" className={styles.formcontent}>
+          <span className={styles.formcontentTitle}>CONNEXION</span>
+          <InputComponent label='Identifiant' value={user.login}  onChange={(e) => setUser({ ...user, login: e.target.value })}/>
+          <InputComponent label='Mot de passe' type="password" value={user.password} onChange={(e)=>setUser({ ...user, password: e.target.value })}/>
+          <ButtonComponent onClick={HandleClick}>Connexion</ButtonComponent>
         </form>
       </div>
 

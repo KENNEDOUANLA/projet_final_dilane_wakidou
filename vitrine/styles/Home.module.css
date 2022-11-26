@@ -1,7 +1,13 @@
 .logo > * {
   display: inline;
 }
-
+.logo_image{
+  height: inherit !important;
+  width: auto !important;
+}
+.logo{
+  height: inherit;
+}
 .headerImg {
   background: url('../assets/images/bg-cars.png');
   height: 500px!important;
@@ -11,17 +17,17 @@
 }
 
 .headerImg p {
-  width: 50%;
+  width: 65%;
   padding: 1rem;
   margin: 0;
   background-color: #fff;
   position: absolute;
-  left: 25%;
+  left: 17.5%;
   bottom: 0;
 }
 
 .formDiv {
-  width: 50%;
+  width: 65%;
   margin: 0 auto;
   background-color: #fff;
   padding: 1rem 2rem;
@@ -44,6 +50,7 @@
   grid-gap: 1rem;
   margin: 1rem 0;
 }
+
 
 @media screen and (max-width: 1024px) {
   
@@ -68,7 +75,7 @@
   }
 
   .headerImg p {
-    width: 80%;
+    width: 90%;
     left: auto;
     right: 0;
   }
@@ -78,12 +85,26 @@
   }
 
   .formDivInputsDiv {
-    display: block;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    }
 
   .formDivInputs {
     margin: 1rem 0;
     width: 100%;
   }
 
+}
+
+/* new css */
+
+.radios{
+  display: flex;
+}
+.demande{
+  width: 50%;
+  margin-left: auto;
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
 }

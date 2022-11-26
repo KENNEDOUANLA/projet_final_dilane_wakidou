@@ -12,6 +12,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+
     .component-ui-select-result-text{
       display: flex;
       flex-direction: column;
@@ -26,7 +28,7 @@
         font: normal normal normal 18px/12px 'Abel';
         color: #c00000cc;
       }
-    }  
+    }
   }
   .hide{
     display: none;
@@ -39,15 +41,34 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    max-height: 150px;
+    max-height: 200px;
     overflow-y: auto;
     border: 1px solid #eee;
     border-top:0 ;
     border-bottom: 0;
+    z-index: 9999;
 
+    .component-ui-select-items-search{
+        color: #b5b2b2;
+        background-color: #fff;
+        box-shadow: rgb(177 177 177 / 50%) 0.7px 0.7px 20px 0px;
+        border: 0;
+        padding-left: 25px;
+        font-size: large;
+        height: 60px;
+        min-height: 45px !important;
+        border-bottom: 1px solid #f9f9f9a7;
+    }
+
+    .component-ui-select-items-search:focus{
+      outline: none;
+    }
     .component-ui-select-items-span{
       border-bottom: 1px solid #eee;
-      padding:  7px 20px;
+      padding: 0px 20px;
+      display: flex;
+      min-height: 35px !important;
+      align-items: center;
     }
     .component-ui-select-items-span:hover{
       background-color: #F9F9F9;

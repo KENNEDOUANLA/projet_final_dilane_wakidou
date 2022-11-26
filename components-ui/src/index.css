@@ -25,7 +25,6 @@
 
 .component-ui-input {
   background-color: #F9F9F9;
-  height: 40px;
   display: flex;
   flex-direction: column;
   padding: 10px 15px;
@@ -104,15 +103,33 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  max-height: 150px;
+  max-height: 200px;
   overflow-y: auto;
   border: 1px solid #eee;
   border-top: 0;
   border-bottom: 0;
+  z-index: 9999;
+}
+.component-ui-select .component-ui-select-items .component-ui-select-items-search {
+  color: #b5b2b2;
+  background-color: #fff;
+  box-shadow: rgba(177, 177, 177, 0.5) 0.7px 0.7px 20px 0px;
+  border: 0;
+  padding-left: 25px;
+  font-size: large;
+  height: 60px;
+  min-height: 45px !important;
+  border-bottom: 1px solid rgba(249, 249, 249, 0.6549019608);
+}
+.component-ui-select .component-ui-select-items .component-ui-select-items-search:focus {
+  outline: none;
 }
 .component-ui-select .component-ui-select-items .component-ui-select-items-span {
   border-bottom: 1px solid #eee;
-  padding: 7px 20px;
+  padding: 0px 20px;
+  display: flex;
+  min-height: 35px !important;
+  align-items: center;
 }
 .component-ui-select .component-ui-select-items .component-ui-select-items-span:hover {
   background-color: #F9F9F9;
