@@ -5,15 +5,20 @@ projet final full-stack course
 Installation :
 Après avoir cloner le projet 
 
-I- COMPONENTS-UI
+I- COMPONENTS-UI :
 
- 1 - cd deplacer dans le dossier components-ui ( cd components-ui)
- 2 - lancer la commande npm install (pour installer les dependances)
- 3 - npm run yalc:build
+      1 - Déplacez-vous dans le dossier components-ui en utilisant la commande :  " cd components-ui "
  
-II - VITRINE
+      2 - lancer la commande " npm install " (pour installer les dependances)
+ 
+      3 - lancer la commande " npm run yalc:build "
+ 
+ II - VITRINE
 
-  1 - de la racine du projet ce deplacer dans le dossier vitrine (cd vitrine)
-  2 - installer les dépendances npm install
-  3 - yalc link components-ui
-  4 - npm run dev
+      1 - De la racine du projet déplacez-vous dans le dossier vitrine " cd vitrine "
+  
+      2 - installer les dépendances du projet vitrine avec " npm install "
+  
+      3 - lancer la commande pour lier le composant (componnets-ui) au projet vitrine  " yalc link components-ui "
+  
+      4 - lancer la commande " npm run dev "
