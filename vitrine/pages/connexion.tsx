@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import styles from '../styles/connexion.module.css'
-import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "components-ui"
+import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "my-lib-ui"
 import { useState } from 'react'
 import { type } from 'os'
 
@@ -11,6 +12,7 @@ type User = {
 }
 export default function Connexion() {
   const [user, setUser] = useState<User>({ login:"", password:"" });
+  const router = useRouter();
   const HandleClick = (e: any) => {
     e.preventDefault();
     console.log("user", user);
@@ -31,8 +33,8 @@ export default function Connexion() {
         <ButtonComponent>Connexion admin</ButtonComponent>
       </nav>
 
-      <div className={styles.formDiv}>
-        <div className={styles.back}>
+      <div className={styles.formDiv} >
+        <div className={styles.back} onClick={()=>router.push('/')}>
           <span style={{color:"rgb(192, 0, 0)"}}>&larr;</span><span> Retour</span>
         </div>
         

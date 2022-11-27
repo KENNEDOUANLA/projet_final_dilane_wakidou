@@ -1,9 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
-import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "components-ui"
-import { type } from 'os'
+import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "my-lib-ui"
+
+
 const pays=[
   {label: "Afghanistan",value:1},
   {label: "Afrique du Sud",value:1},
@@ -274,7 +276,7 @@ type NewUser = {
 export default function Home() {
   const [checkbox, stateCheckbox] = useState(false);
   const [user,setUser]=useState<NewUser>({type:false,name:"",subName:"",eMail:"",phone:"",nation:1,acceptCondi:false})
-  
+  const router = useRouter();
   const HandleSubmit = () => {
     console.log("user", user);
   }
@@ -293,7 +295,7 @@ export default function Home() {
         </div>
         <div></div>
         {/* COMPONENT */}
-        <ButtonComponent>Connexion admin</ButtonComponent>
+        <ButtonComponent onClick={()=>router.push('/connexion')}>Connexion admin</ButtonComponent>
       </nav>
       <div className={styles.headerImg}>
         <p>▷ Depuis 2008, RIDE, agence de location de voitures de luxe propose ses services partout en France (Paris, Monaco, Nice, Cannes, Saint-Tropez, Courchevel, Saint-Moritz...).Notre expérience est à votre service pour répondre à toutes vos demandes</p>

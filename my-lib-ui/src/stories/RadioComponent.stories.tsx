@@ -13,11 +13,4 @@ export default {
 
 export const CheckboxComponentView: ComponentStory<typeof RadioComponent> = (
   args
-) =>{
-  return (
-    <div>
-      <RadioComponent {...args} label="Connexion admin">Button</RadioComponent>
-      <RadioComponent {...args} label="Connexion admin">Button</RadioComponent>
-    </div>
-  )
-} ;
+) =><RadioComponent {...args} label="Connexion admin">Button</RadioComponent>;

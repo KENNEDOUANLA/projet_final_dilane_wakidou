@@ -53,7 +53,7 @@
   font-size: large;
   height: 60px;
   min-height: 45px !important;
-  border-bottom: 1px solid rgba(249, 249, 249, 0.6549019608);
+  border-bottom: 1px solid rgba(236, 230, 230, 0.65);
 }
 .component-ui-select .component-ui-select-items .component-ui-select-items-search:focus {
   outline: none;
