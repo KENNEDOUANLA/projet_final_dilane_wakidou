@@ -4,12 +4,12 @@ import axios from 'axios'
 type Data = {
   name: string
 }
-
+const base_url='http://localhost:8000/api'
 
 export const loginRequest = (body:any) => {
-  return axios.post('http://localhost:8000/api/login', body)
+  return axios.post(`${base_url}/.user/login`, body)
     .then( (res) => {
-      console.log(res)
+      console.log("res",res)
     })
     .catch( (err) => {
       console.log(err)
@@ -42,6 +42,7 @@ export const valideUserRequest = (id:any) =>
     .catch( (err) => {
       console.log(err)
     })
+export const getUsers=(token:string) => axios.get(`${base_url}/users`,{headers:{Authorization:token}}).then(res=>res.data);
 
 export default function handler(
   req: NextApiRequest,
