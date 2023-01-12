@@ -7,7 +7,7 @@ import { useState } from 'react'
 import {ButtonComponent} from "my-lib-ui"
 import {ColumnsType} from 'antd/lib/table'
 import {Table} from 'antd'
-import { valideUserRequest, getAllUsers } from './api/user'
+import { valideUserRequest } from './api/user'
 export default function Home() {
   const router = useRouter();
   const [dataSource, setDataSource] = useState<dataType[]> ([
