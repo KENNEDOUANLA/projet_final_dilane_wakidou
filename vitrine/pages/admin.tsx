@@ -10,8 +10,7 @@ import { Table } from "antd";
 import { getUsers, valideUserRequest } from "./api/user";
 export default function Home() {
   const router = useRouter();
-
-  const [dataSource, setDataSource] = useState<dataType[]>([
+  const [dataSource, setDataSource] = useState<dataType[]> ([
     {
       id: 1,
       type: "entreprise",

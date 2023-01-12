@@ -297,7 +297,7 @@ export default function Home() {
             message: `Notification`,
             description: 'Votre compte sera être examiné par un admin avant validation',
             placement: 'bottomRight',
-            duration: 10,
+            duration: 5,
             onClose() {
               router.push('/connexion')
             },
@@ -349,10 +349,11 @@ export default function Home() {
             <CheckboxComponent label='J’atteste que je possède un permis de conduire valide.'  onChange={(e:any)=>setUser({...user,acceptCondi:e.target.checked})}/>
           </div>
           <div className={styles.demande}>
-            <ButtonComponent onClick={HandleSubmit}>Demander mon inscription
-            {
-              isloading ? <img src="/loading.svg" className={styles.loading} alt="Chargement en cours" /> : ''
-            }
+            <ButtonComponent onClick={HandleSubmit}>
+              Demander mon inscription
+              {
+                isloading ? <img src="/loading.svg" className="loading" alt="Chargement en cours" /> : ''
+              }
             </ButtonComponent>
 
           </div>
