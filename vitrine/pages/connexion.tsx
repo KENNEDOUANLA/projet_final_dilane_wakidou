@@ -5,6 +5,7 @@ import styles from '../styles/connexion.module.css'
 import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "my-lib-ui"
 import { useState } from 'react'
 import { type } from 'os'
+import { loginRequest, checkRole } from './api/user'
 
 type User = {
   login: string,
@@ -14,8 +15,19 @@ export default function Connexion() {
   const [user, setUser] = useState<User>({ login:"", password:"" });
   const router = useRouter();
   const HandleClick = (e: any) => {
-    e.preventDefault();
-    console.log("user", user);
+    e.preventDefault()
+    if(!user.login || !user.password) {
+      alert('Veuillez remplir tout les champs du formulaire') 
+    }
+    else {
+      loginRequest(user)
+        .then( (res:any) => {
+          if(res) {
+            // localStorage.setItem(res)
+            checkRole(res)
+          }
+        })
+    }
   }
   return (
     <div className={styles.container}>
@@ -38,7 +50,7 @@ export default function Connexion() {
           <span style={{color:"rgb(192, 0, 0)"}}>&larr;</span><span> Retour</span>
         </div>
         
-        <form action="" className={styles.formcontent}>
+        <form className={styles.formcontent}>
           <span className={styles.formcontentTitle}>CONNEXION</span>
           <InputComponent label='Identifiant' value={user.login}  onChange={(e) => setUser({ ...user, login: e.target.value })}/>
           <InputComponent label='Mot de passe' type="password" value={user.password} onChange={(e)=>setUser({ ...user, password: e.target.value })}/>

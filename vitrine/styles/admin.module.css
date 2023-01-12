@@ -1,0 +1,12 @@
+.container {
+    margin-top: 3rem
+}
+.container h1 {
+    text-align: center;
+}
+.tablesDiv {
+    margin: 2rem;
+}
+.table thead tr th {
+    background-color: #e4f6ed!important;
+}
