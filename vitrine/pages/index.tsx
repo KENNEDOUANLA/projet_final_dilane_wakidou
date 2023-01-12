@@ -4,7 +4,8 @@ import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "my-lib-ui"
-
+import { inscriptionRequest } from './api/user'
+import { notification } from 'antd'
 
 const pays=[
   {label: "Afghanistan",value:1},
@@ -273,12 +274,40 @@ type NewUser = {
   nation: string | number | undefined,
   acceptCondi:boolean
 }
+
 export default function Home() {
+  const [isloading, setIsLoading] = useState(false)
   const [checkbox, stateCheckbox] = useState(false);
   const [user,setUser]=useState<NewUser>({type:false,name:"",subName:"",eMail:"",phone:"",nation:1,acceptCondi:false})
   const router = useRouter();
-  const HandleSubmit = () => {
-    console.log("user", user);
+  const [api, contextHolder] = notification.useNotification();
+
+  const HandleSubmit = (e:any) => {
+    e.preventDefault()
+    if(!user.acceptCondi || !user.eMail || !user.name || !user.nation || !user.phone || !user.subName || !user.type) {
+      alert('Veuillez remplir tout les champs du formulaire')
+    }
+    else {
+      setIsLoading(true)
+      inscriptionRequest(user)
+        .then( (res) => {
+          console.log(res);
+          setIsLoading(false)
+          api.info({
+            message: `Notification`,
+            description: 'Votre compte sera être examiné par un admin avant validation',
+            placement: 'bottomRight',
+            duration: 10,
+            onClose() {
+              router.push('/connexion')
+            },
+          })
+        })
+        .catch( (err) => {
+          console.log(err);
+          
+        })
+    }
   }
   
   return (
@@ -301,7 +330,8 @@ export default function Home() {
         <p>▷ Depuis 2008, RIDE, agence de location de voitures de luxe propose ses services partout en France (Paris, Monaco, Nice, Cannes, Saint-Tropez, Courchevel, Saint-Moritz...).Notre expérience est à votre service pour répondre à toutes vos demandes</p>
       </div>
       <div className={styles.formDivContainer}>
-        <div className={styles.formDiv}>
+        <form className={styles.formDiv}>
+          {contextHolder}
           <span className={styles.formDivSpan}>INSCRIPTION</span>
           <p>Je suis :</p>
           <div className={styles.radios}>
@@ -309,20 +339,24 @@ export default function Home() {
             <RadioComponent label='un particulier'  name='type' value='particulier' onChange={(e)=>setUser({...user,type:e.target.value})} />
           </div>
           <div className={styles.formDivInputsDiv}>
-            <InputComponent label='Nom' value={user.name} onChange={(e)=>setUser({...user,name:e.target.value})}/>
-            <InputComponent label='Prenom' value={user.subName} onChange={(e)=>setUser({...user,subName:e.target.value})}/>
-            <InputComponent type="email" label='E-mail' value={user.eMail} onChange={(e)=>setUser({...user,eMail:e.target.value})}/>
-            <InputComponent label='Numéro de téléphone' value={user.phone} onChange={(e)=>setUser({...user,phone:e.target.value})}/>
-            <SelectComponent label='Nationalité' data={data}  value={user.nation} onSelected={(value)=>setUser({...user,nation:value})}/>
+            <InputComponent label='Nom' value={user.name} onChange={(e:any)=>setUser({...user,name:e.target.value})}/>
+            <InputComponent label='Prenom' value={user.subName} onChange={(e:any)=>setUser({...user,subName:e.target.value})}/>
+            <InputComponent type="email" label='E-mail' value={user.eMail} onChange={(e:any)=>setUser({...user,eMail:e.target.value})}/>
+            <InputComponent label='Numéro de téléphone' value={user.phone} onChange={(e:any)=>setUser({...user,phone:e.target.value})}/>
+            <SelectComponent label='Nationalité' data={data}  value={user.nation} onSelected={(value:any)=>setUser({...user,nation:value})}/>
           </div>
           <div>
-            <CheckboxComponent label='J’atteste que je possède un permis de conduire valide.'  onChange={(e)=>setUser({...user,acceptCondi:e.target.checked})}/>
+            <CheckboxComponent label='J’atteste que je possède un permis de conduire valide.'  onChange={(e:any)=>setUser({...user,acceptCondi:e.target.checked})}/>
           </div>
           <div className={styles.demande}>
-            <ButtonComponent onClick={HandleSubmit}>Demander mon inscription</ButtonComponent>
+            <ButtonComponent onClick={HandleSubmit}>Demander mon inscription
+            {
+              isloading ? <img src="/loading.svg" className={styles.loading} alt="Chargement en cours" /> : ''
+            }
+            </ButtonComponent>
+
           </div>
-          
-        </div>
+        </form>
       </div>
 
       <footer className="footer">
