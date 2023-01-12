@@ -12,6 +12,7 @@ type User = {
   password:string
 }
 export default function Connexion() {
+  const [isloading, setIsLoading] = useState(false)
   const [user, setUser] = useState<User>({ login:"", password:"" });
   const router = useRouter();
   const HandleClick = (e: any) => {
@@ -20,12 +21,26 @@ export default function Connexion() {
       alert('Veuillez remplir tout les champs du formulaire') 
     }
     else {
-      loginRequest(user)
-        .then( (res:any) => {
-          if(res) {
-            // localStorage.setItem(res)
-            checkRole(res)
+      setIsLoading(true)
+      loginRequest({username: user.login, password: user.password})
+        .then( (res:any) => {          
+          if(res.token) {
+            localStorage.setItem('token', 'Bearer '+res.token)
+            checkRole('ROLE_ADMIN','Bearer '+res.token)
+              .then( (res) => {
+                setIsLoading(false)
+                if(res.data) {
+                  router.push('/admin')
+                }
+                else {
+                  router.push('/')
+                }
+              })
           }
+        })
+        .catch( (err) => {
+          console.log(err);
+          
         })
     }
   }
@@ -54,7 +69,12 @@ export default function Connexion() {
           <span className={styles.formcontentTitle}>CONNEXION</span>
           <InputComponent label='Identifiant' value={user.login}  onChange={(e) => setUser({ ...user, login: e.target.value })}/>
           <InputComponent label='Mot de passe' type="password" value={user.password} onChange={(e)=>setUser({ ...user, password: e.target.value })}/>
-          <ButtonComponent onClick={HandleClick}>Connexion</ButtonComponent>
+          <ButtonComponent onClick={HandleClick}>
+            Connexion
+            {
+              isloading ? <img src="/loading.svg" className="loading" alt="Chargement en cours" /> : ''
+            }
+            </ButtonComponent>
         </form>
       </div>
 
