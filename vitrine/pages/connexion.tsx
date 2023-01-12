@@ -1,26 +1,34 @@
-import Head from "next/head";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import styles from "../styles/connexion.module.css";
-import {
-  ButtonComponent,
-  RadioComponent,
-  InputComponent,
-  SelectComponent,
-  CheckboxComponent,
-} from "my-lib-ui";
-import { use, useState } from "react";
-import { type } from "os";
-import { loginRequest, checkRole } from "./api/user";
+import Head from 'next/head'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import styles from '../styles/connexion.module.css'
+import {ButtonComponent,RadioComponent,InputComponent,SelectComponent,CheckboxComponent} from "my-lib-ui"
+import { useEffect, useState } from 'react'
+import { type } from 'os'
+import { loginRequest, checkRole, userRequest } from './api/user'
 
 type User = {
-  login: string;
-  password: string;
-};
+  login: string,
+  password:string
+}
 export default function Connexion() {
   const [isloading, setIsLoading] = useState(false)
   const [user, setUser] = useState<User>({ login:"", password:"" });
   const router = useRouter();
+  useEffect( () => {
+    var token = localStorage.getItem('token')
+    if(token) {
+      userRequest(token)
+        .then( (res) => {
+          if(res.data.roles[0] == 'ROLE_ADMIN' || res.data.roles[1] == 'ROLE_ADMIN') {
+            router.push('/admin')
+          }
+          else {
+            return
+          }
+        })
+    }
+  },[])
   const HandleClick = (e: any) => {
     e.preventDefault()
     if(!user.login || !user.password) {
@@ -34,12 +42,13 @@ export default function Connexion() {
             localStorage.setItem('token', 'Bearer '+res.token)
             checkRole('ROLE_ADMIN','Bearer '+res.token)
               .then( (res) => {
-                setIsLoading(false)
                 if(res.data) {
                   router.push('/admin')
+                  setIsLoading(false)
                 }
                 else {
                   router.push('/')
+                  setIsLoading(false)
                 }
               })
           }
@@ -49,7 +58,7 @@ export default function Connexion() {
           
         })
     }
-  };
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -60,27 +69,19 @@ export default function Connexion() {
 
       <nav className="navbar">
         <div className={styles.logo}>
-          <Image
-            src="/logo_eval.png"
-            alt="Vercel Logo"
-            className={styles.logo_image}
-            width={100}
-            height={200}
-          />
+          <Image src="/logo_eval.png" alt="Vercel Logo" className={styles.logo_image} width={100} height={200}/>
         </div>
         <div></div>
         <ButtonComponent>Connexion admin</ButtonComponent>
       </nav>
 
-      <div className={styles.formDiv}>
-        <div className={styles.back} onClick={() => router.push("/")}>
-          <span style={{ color: "rgb(192, 0, 0)" }}>&larr;</span>
-          <span> Retour</span>
+      <div className={styles.formDiv} >
+        <div className={styles.back} onClick={()=>router.push('/')}>
+          <span style={{color:"rgb(192, 0, 0)"}}>&larr;</span><span> Retour</span>
         </div>
-
+        
         <form className={styles.formcontent}>
           <span className={styles.formcontentTitle}>CONNEXION</span>
-
           <InputComponent label='Identifiant' value={user.login}  onChange={(e) => setUser({ ...user, login: e.target.value })}/>
           <InputComponent label='Mot de passe' type="password" value={user.password} onChange={(e)=>setUser({ ...user, password: e.target.value })}/>
           <ButtonComponent onClick={HandleClick}>
@@ -92,13 +93,14 @@ export default function Connexion() {
         </form>
       </div>
 
-      <footer className="footer">
+      <footer className='footer'>
         <ul>
           <li>Contact</li>
           <li>Conditions généralespdf</li>
         </ul>
         <p className={styles.footerP}>RIDE 2022 - tout droits reservés</p>
       </footer>
+
     </div>
-  );
+  )
 }

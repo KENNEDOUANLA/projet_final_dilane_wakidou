@@ -25,6 +25,20 @@ export const checkRole = (role:string, token:string) => {
     })
 }
 
+export const userRequest = (token:any) => {
+  return axios.get('http://localhost:8000/api/.user/user', {
+    headers: {
+      Authorization: token
+    }
+  })
+    .then( (res) => {
+      return res
+    })
+    .catch( (err) => {
+      return err
+    })
+}
+
 export const inscriptionRequest = (body:any) => {
   return axios.post('http://localhost:8000/api/inscription', body)
     .then( (res) => {
