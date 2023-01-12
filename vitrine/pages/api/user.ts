@@ -7,22 +7,21 @@ type Data = {
 
 
 export const loginRequest = (body:any) => {
-  return axios.post('http://localhost:8000/api/login', body)
-    .then( (res) => {
-      console.log(res)
-    })
-    .catch( (err) => {
-      console.log(err)
-    })
+  return axios.post('http://localhost:8000/api/.user/login', body)
+    .then( (res) => res.data)
 }
 
-export const checkRole = (body:any) => {
-  return axios.post('http://localhost:8000/api/check-role', body)
+export const checkRole = (role:string, token:string) => {
+  return axios.post('http://localhost:8000/api/.user/checkRole', {role:role}, {
+    headers: {
+      Authorization: token
+    }
+  })
     .then( (res) => {
-      console.log(res)
+      return res
     })
     .catch( (err) => {
-      console.log(err)
+      return err
     })
 }
 

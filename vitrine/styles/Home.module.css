@@ -16,13 +16,6 @@
   position: relative;
 }
 
-.loading {
-  width: 22px;
-  height: 22px;
-  vertical-align: middle;
-  margin-left: 0.5rem;
-}
-
 .headerImg p {
   width: 65%;
   padding: 1rem;
