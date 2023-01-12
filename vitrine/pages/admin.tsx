@@ -1,73 +1,73 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import stylesAdmin from '../styles/admin.module.css'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import {ButtonComponent} from "my-lib-ui"
-import {ColumnsType} from 'antd/lib/table'
-import {Table} from 'antd'
-import { valideUserRequest } from './api/user'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import stylesAdmin from "../styles/admin.module.css";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { ButtonComponent } from "my-lib-ui";
+import { ColumnsType } from "antd/lib/table";
+import { Table } from "antd";
+import { getUsers, valideUserRequest } from "./api/user";
 export default function Home() {
   const router = useRouter();
   const [dataSource, setDataSource] = useState<dataType[]> ([
     {
       id: 1,
-      type: 'entreprise',
-      nom: 'Test',
-      prenom: 'testt',
-      email: 'test@gmail.com',
-      numero: '0404040404',
-      nationalite: 'french'
+      type: "entreprise",
+      nom: "Test",
+      prenom: "testt",
+      email: "test@gmail.com",
+      numero: "0404040404",
+      nationalite: "french",
     },
     {
       id: 2,
-      type: 'entreprise',
-      nom: 'Test',
-      prenom: 'testt',
-      email: 'test@gmail.com',
-      numero: '0404040404',
-      nationalite: 'french'
+      type: "entreprise",
+      nom: "Test",
+      prenom: "testt",
+      email: "test@gmail.com",
+      numero: "0404040404",
+      nationalite: "french",
     },
     {
       id: 3,
-      type: 'entreprise',
-      nom: 'Test',
-      prenom: 'testt',
-      email: 'test@gmail.com',
-      numero: '0404040404',
-      nationalite: 'french'
-    }
-  ])
-  const [dataSourceNewUsers, setDataSourceNewUsers] = useState<dataType[]> ([
+      type: "entreprise",
+      nom: "Test",
+      prenom: "testt",
+      email: "test@gmail.com",
+      numero: "0404040404",
+      nationalite: "french",
+    },
+  ]);
+  const [dataSourceNewUsers, setDataSourceNewUsers] = useState<dataType[]>([
     {
       id: 1,
-      type: 'entreprise',
-      nom: 'Test',
-      prenom: 'testt',
-      email: 'test@gmail.com',
-      numero: '0404040404',
-      nationalite: 'french'
+      type: "entreprise",
+      nom: "Test",
+      prenom: "testt",
+      email: "test@gmail.com",
+      numero: "0404040404",
+      nationalite: "french",
     },
     {
       id: 2,
-      type: 'entreprise',
-      nom: 'Test',
-      prenom: 'testt',
-      email: 'test@gmail.com',
-      numero: '0404040404',
-      nationalite: 'french'
+      type: "entreprise",
+      nom: "Test",
+      prenom: "testt",
+      email: "test@gmail.com",
+      numero: "0404040404",
+      nationalite: "french",
     },
     {
       id: 3,
-      type: 'entreprise',
-      nom: 'Test',
-      prenom: 'testt',
-      email: 'test@gmail.com',
-      numero: '0404040404',
-      nationalite: 'french'
-    }
-  ])
+      type: "entreprise",
+      nom: "Test",
+      prenom: "testt",
+      email: "test@gmail.com",
+      numero: "0404040404",
+      nationalite: "french",
+    },
+  ]);
 
   type dataType = {
     id: number;
@@ -77,105 +77,128 @@ export default function Home() {
     email: string;
     numero: string;
     nationalite: string;
-  }
+  };
 
-  const [columns] = useState<ColumnsType<dataType>> ([
+  const [columns] = useState<ColumnsType<dataType>>([
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id'
+      title: "Id",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type'
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom'
+      title: "Nom",
+      dataIndex: "nom",
+      key: "nom",
     },
     {
-      title: 'Prenom',
-      dataIndex: 'prenom',
-      key: 'prenom'
+      title: "Prenom",
+      dataIndex: "prenom",
+      key: "prenom",
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email'
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: 'Numéro',
-      dataIndex: 'numero',
-      key: 'numero'
+      title: "Numéro",
+      dataIndex: "numero",
+      key: "numero",
     },
     {
-      title: 'Nationalité',
-      dataIndex: 'nationalite',
-      key: 'nationalite'
+      title: "Nationalité",
+      dataIndex: "nationalite",
+      key: "nationalite",
     },
-  ])
+  ]);
 
-  const [columnsNewUsers] = useState<ColumnsType<dataType>> ([
+  const [columnsNewUsers] = useState<ColumnsType<dataType>>([
     {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id',
+      title: "Id",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type'
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom'
+      title: "Nom",
+      dataIndex: "nom",
+      key: "nom",
     },
     {
-      title: 'Prenom',
-      dataIndex: 'prenom',
-      key: 'prenom'
+      title: "Prenom",
+      dataIndex: "prenom",
+      key: "prenom",
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email'
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: 'Numéro',
-      dataIndex: 'numero',
-      key: 'numero'
+      title: "Numéro",
+      dataIndex: "numero",
+      key: "numero",
     },
     {
-      title: 'Nationalité',
-      dataIndex: 'nationalite',
-      key: 'nationalite'
+      title: "Nationalité",
+      dataIndex: "nationalite",
+      key: "nationalite",
     },
     {
-      title: 'Valider',
-      key: 'validate',
-      render: (_,{id}) => {
+      title: "Valider",
+      key: "validate",
+      render: (_, { id }) => {
         return (
-          <ButtonComponent onClick={() => HandleSubmit(id)} style={{backgroundColor: '#e4f6ed', fontSize: '0.75rem', height: '30px', borderRadius: '3px', color: 'black'}}>Valider</ButtonComponent>
-        )
+          <ButtonComponent
+            onClick={() => HandleSubmit(id)}
+            style={{
+              backgroundColor: "#e4f6ed",
+              fontSize: "0.75rem",
+              height: "30px",
+              borderRadius: "3px",
+              color: "black",
+            }}
+          >
+            Valider
+          </ButtonComponent>
+        );
+      },
+    },
+  ]);
+  const HandleSubmit = (id: number) => {
+    valideUserRequest(id).then((res: number) => {
+      console.log(res);
+      const validateUser = dataSourceNewUsers.find((data) => data.id === res);
+      if (validateUser) {
+        setDataSource([validateUser, ...dataSource]);
       }
-    }
-  ])
-  const HandleSubmit = (id:number) => {
-    valideUserRequest(id)
-      .then( (res:number) => {
-        console.log(res)
-        const validateUser = dataSourceNewUsers.find(data => data.id === res)
-        if(validateUser) {
-          setDataSource([validateUser, ...dataSource])
-        }
-        dataSourceNewUsers.filter(data => data.id !== res)
-      })
+      dataSourceNewUsers.filter((data) => data.id !== res);
+    });
+  };
 
-  }
-  
+  useEffect(() => {
+    const _token = localStorage.getItem("token");
+    if (_token) {
+      getUsers(_token)
+        .then((res) => {
+          setDataSourceNewUsers(res.filter((user: any) => user.validate));
+          setDataSource(res.filter((user: any) => !user.validate));
+        })
+        .catch((err) => console.log("erro", err));
+    } else {
+      router.push("/login");
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -186,22 +209,38 @@ export default function Home() {
 
       <nav className="navbar">
         <div className={styles.logo}>
-          <Image src="/logo_eval.png" alt="Vercel Logo" className={styles.logo_image} width={100} height={200}/>
+          <Image
+            src="/logo_eval.png"
+            alt="Vercel Logo"
+            className={styles.logo_image}
+            width={100}
+            height={200}
+          />
         </div>
         <div></div>
         {/* COMPONENT */}
-        <ButtonComponent onClick={()=>router.push('/connexion')}>Connexion admin</ButtonComponent>
+        <ButtonComponent onClick={() => router.push("/connexion")}>
+          Connexion admin
+        </ButtonComponent>
       </nav>
       <div className={stylesAdmin.container}>
         <h1>Admin page</h1>
         <div className={stylesAdmin.tablesDiv}>
           <div>
             <h2>Future users</h2>
-            <Table className={stylesAdmin.table} dataSource={dataSource} columns={columnsNewUsers}/>
+            <Table
+              className={stylesAdmin.table}
+              dataSource={dataSource}
+              columns={columnsNewUsers}
+            />
           </div>
           <div>
             <h2>Users</h2>
-            <Table className={stylesAdmin.table} dataSource={dataSource} columns={columns}/>
+            <Table
+              className={stylesAdmin.table}
+              dataSource={dataSource}
+              columns={columns}
+            />
           </div>
         </div>
       </div>
@@ -213,7 +252,6 @@ export default function Home() {
         </ul>
         <p>RIDE 2022 - tout droits reservés</p>
       </footer>
-
     </div>
-  )
+  );
 }
