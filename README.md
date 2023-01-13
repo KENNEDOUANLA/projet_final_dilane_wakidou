@@ -22,3 +22,17 @@ I- COMPONENTS-UI :
       3 - lancer la commande pour lier le composant (my-lib-ui) au projet vitrine  " yalc link my-lib-ui "
   
       4 - lancer la commande " npm run dev "
+      
+      
+  III - SCREENS
+  
+  ![login](https://user-images.githubusercontent.com/57793874/212290026-9c06e46a-a38e-447d-af86-2d16bddd99a4.png)
+  ![inscription](https://user-images.githubusercontent.com/57793874/212290096-2c48bd30-ffdc-431e-85db-6168e80788ba.png)
+  ![checkrole](https://user-images.githubusercontent.com/57793874/212290142-39b7c037-e3dc-4bfa-9e7c-dc81600b39ee.png)
+  ![validateuser](https://user-images.githubusercontent.com/57793874/212290167-b1b15656-b895-4a8f-8332-4744474fdc0e.png)
+  
+  https://user-images.githubusercontent.com/57793874/212291753-057d288e-baf0-4fb5-acd0-78a5d8eec164.mp4
+
+
+
+  
