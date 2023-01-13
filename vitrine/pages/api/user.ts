@@ -35,12 +35,9 @@ export const inscriptionRequest = (body:any) => {
     })
 }
 
-export const valideUserRequest = (id:any) => 
-  axios.post('http://localhost:8000/api/inscription/valide-user/', {id})
-    .then( (res) => res.data)
-    .catch( (err) => {
-      console.log(err)
-    })
+export const valideUserRequest = (token:string,id:any) => 
+  axios.post('http://localhost:8000/api/inscription/valide-user/', {id},{headers:{Authorization:token}})
+    .then((res) => res.data)
 export const getUsers=(token:string) => axios.get(`${base_url}/users`,{headers:{Authorization:token}}).then(res=>res.data);
 
 export default function handler(

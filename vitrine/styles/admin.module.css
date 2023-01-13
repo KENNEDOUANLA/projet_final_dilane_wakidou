@@ -1,11 +1,15 @@
 .container {
-    margin-top: 3rem
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 .container h1 {
     text-align: center;
+    margin: 0 !important;
 }
 .tablesDiv {
-    margin: 2rem;
+    margin: 0 2rem ;
 }
 .table thead tr th {
     background-color: #e4f6ed!important;
