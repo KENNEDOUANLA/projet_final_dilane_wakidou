@@ -135,4 +135,71 @@
   background-color: #F9F9F9;
 }
 
+.component-ui-table {
+  width: 100%;
+}
+.component-ui-table table {
+  width: 100%;
+  border-spacing: 0;
+}
+.component-ui-table table th {
+  text-align: start;
+  border-bottom: 1.5px solid #F9F9F9;
+  padding: 10px 0;
+  padding-left: 8px;
+  font-weight: 400;
+}
+.component-ui-table table td {
+  border-bottom: 1.5px solid #F9F9F9;
+  padding: 10px 0;
+  padding-left: 8px;
+}
+.component-ui-table table tbody tr:hover {
+  background-color: #fafafa;
+}
+.component-ui-table .component-ui-table-pagin {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1.5rem;
+}
+.component-ui-table .component-ui-table-nor-data {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1.5px solid #F9F9F9;
+  border-top: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.component-ui-table .component-ui-table-nor-data .component-ui-table-nor-data-default {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.component-ui-pagination {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.component-ui-pagination-active {
+  border: 1px solid #1677ff;
+  color: #1677ff;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.component-ui-pagination-not-clickabel {
+  cursor: initial;
+  color: #cccbcb;
+}
+
 /*# sourceMappingURL=index.css.map */

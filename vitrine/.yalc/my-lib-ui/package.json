@@ -34,7 +34,8 @@
     "dist"
   ],
   "dependencies": {
+    "@ant-design/icons": "^5.0.0",
     "node-sass": "^8.0.0"
   },
-  "yalcSig": "ff43b103aa726b4a9d3727b307859e29"
+  "yalcSig": "b4b3757fa8f134ac960e224a2195c79a"
 }

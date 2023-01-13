@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 declare type selectItems = {
     label: string | number;
     value?: string | number;
