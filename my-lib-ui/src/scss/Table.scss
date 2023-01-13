@@ -1,0 +1,69 @@
+.component-ui-table{
+  width: 100%;
+  table{
+    width: 100%;
+    border-spacing: 0;
+
+    th{
+      text-align: start;
+      border-bottom: 1.5px solid #F9F9F9;
+      padding: 10px 0;
+      padding-left: 8px;
+      font-weight: 400;
+
+    }
+    td{
+      border-bottom: 1.5px solid #F9F9F9;
+      padding: 10px 0;
+      padding-left: 8px;
+    }
+    tbody{
+      tr:hover{
+        background-color: #fafafa;
+      }
+    }
+
+  }
+  .component-ui-table-pagin{
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.5rem;
+  }
+  .component-ui-table-nor-data{
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1.5px solid #F9F9F9;
+    border-top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    .component-ui-table-nor-data-default{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+      }
+    }
+}
+.component-ui-pagination{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.component-ui-pagination-active{
+    border: 1px solid #1677ff;
+    color: #1677ff;
+    border-radius: 8px;
+    font-weight: bold;
+}
+.component-ui-pagination-not-clickabel{
+  cursor: initial;
+  color: #cccbcb;
+}

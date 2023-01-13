@@ -76,6 +76,7 @@
     "dist"
   ],
   "dependencies": {
+    "@ant-design/icons": "^5.0.0",
     "node-sass": "^8.0.0"
   }
 }

@@ -1,8 +1,11 @@
-.container {
+.page{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 10px;
+    height: 100vh;
+}
+.container {
+    margin-top: 15px;
 }
 .container h1 {
     text-align: center;

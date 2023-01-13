@@ -129,9 +129,9 @@ var SelectComponent = function SelectComponent(props) {
   var _props$data = props.data,
     data = _props$data === void 0 ? [] : _props$data,
     _props$label = props.label,
-    label = _props$label === void 0 ? "select" : _props$label,
+    label = _props$label === void 0 ? 'select' : _props$label,
     onSelected = props.onSelected;
-  var _useState = React.useState(""),
+  var _useState = React.useState(''),
     selected = _useState[0],
     setSelected = _useState[1];
   var _useState2 = React.useState(false),
@@ -160,41 +160,41 @@ var SelectComponent = function SelectComponent(props) {
     }));
   };
   return React__default.createElement("div", {
-    className: "component-ui-select"
+    className: 'component-ui-select'
   }, React__default.createElement("div", {
-    className: "component-ui-select-result",
+    className: 'component-ui-select-result',
     onClick: function onClick() {
       return setShowItems(!showItems);
     }
   }, React__default.createElement("div", {
-    className: "component-ui-select-result-text"
+    className: 'component-ui-select-result-text'
   }, React__default.createElement("span", {
-    className: "component-ui-select-span"
+    className: 'component-ui-select-span'
   }, label), React__default.createElement("span", {
-    className: "component-ui-select-span-value"
+    className: 'component-ui-select-span-value'
   }, selected)), React__default.createElement("div", null, React__default.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "16",
-    height: "16",
-    fill: "currentColor",
-    className: "bi bi-chevron-down",
-    viewBox: "0 0 16 16"
+    xmlns: 'http://www.w3.org/2000/svg',
+    width: '16',
+    height: '16',
+    fill: 'currentColor',
+    className: 'bi bi-chevron-down',
+    viewBox: '0 0 16 16'
   }, React__default.createElement("path", {
-    fillRule: "evenodd",
-    d: "M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+    fillRule: 'evenodd',
+    d: 'M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
   })))), React__default.createElement("div", {
-    className: showItems ? "component-ui-select-items" : "hide"
+    className: showItems ? 'component-ui-select-items' : 'hide'
   }, React__default.createElement("input", {
-    type: "text",
-    name: "search",
-    className: "component-ui-select-items-search",
-    placeholder: "Search ...",
+    type: 'text',
+    name: 'search',
+    className: 'component-ui-select-items-search',
+    placeholder: 'Search ...',
     onChange: function onChange(e) {
       return Filter(e.target.value);
     }
   }), datas.map(function (value, index) {
     return React__default.createElement("option", {
-      className: "component-ui-select-items-span",
+      className: 'component-ui-select-items-span',
       value: index,
       key: index,
       onClick: function onClick(e) {
@@ -204,9 +204,141 @@ var SelectComponent = function SelectComponent(props) {
   })));
 };
 
+var Pagin = function Pagin(props) {
+  var value = props.value,
+    onClick = props.onClick,
+    _props$active = props.active,
+    active = _props$active === void 0 ? false : _props$active,
+    _props$clickabel = props.clickabel,
+    clickabel = _props$clickabel === void 0 ? true : _props$clickabel;
+  var getClass = function getClass(active, clickabel) {
+    var activeText = active ? 'component-ui-pagination-active ' : '';
+    activeText += clickabel ? '' : 'component-ui-pagination-not-clickabel ';
+    activeText += 'component-ui-pagination';
+    return activeText;
+  };
+  return React__default.createElement("div", {
+    onClick: clickabel ? onClick : function () {},
+    className: getClass(active, clickabel)
+  }, value);
+};
+var Empty = function Empty() {
+  return React__default.createElement("div", {
+    className: 'component-ui-table-nor-data-default'
+  }, React__default.createElement("div", null, React__default.createElement("img", {
+    src: 'https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+  })), React__default.createElement("div", null, React__default.createElement("span", null, "Aucune donn\xE9e disponible")));
+};
+var TableComponent = function TableComponent(props) {
+  var dataSource = props.dataSource,
+    columns = props.columns,
+    _props$pagination = props.pagination,
+    pagination = _props$pagination === void 0 ? {
+      pageSize: 5
+    } : _props$pagination,
+    _props$rowkey = props.rowkey,
+    rowkey = _props$rowkey === void 0 ? false : _props$rowkey,
+    _props$empty = props.empty,
+    empty = _props$empty === void 0 ? React__default.createElement(Empty, null) : _props$empty;
+  var _useState = React.useState([]),
+    show = _useState[0],
+    setShow = _useState[1];
+  var _useState2 = React.useState(1),
+    page = _useState2[0],
+    setPage = _useState2[1];
+  var _useState3 = React.useState([]),
+    paginSize = _useState3[0],
+    setPageSize = _useState3[1];
+  React.useEffect(function () {
+    if (pagination) {
+      var i = 0;
+      var pages = [];
+      while (i < dataSource.length / pagination.pageSize) {
+        pages.push(i + 1);
+        i++;
+      }
+      setPageSize(pages);
+    }
+  }, [dataSource]);
+  React.useEffect(function () {
+    if (pagination) {
+      var intervalMax = page * pagination.pageSize;
+      var intervalMin = (page - 1) * pagination.pageSize;
+      setShow(dataSource.filter(function (_, index) {
+        return intervalMin <= index && index < intervalMax;
+      }));
+    } else {
+      setShow(dataSource);
+    }
+  }, [page, dataSource]);
+  return React__default.createElement("div", {
+    className: 'component-ui-table'
+  }, React__default.createElement("table", null, React__default.createElement("thead", null, React__default.createElement("tr", {
+    className: 'component-ui-table-tr'
+  }, columns.map(function (column, index) {
+    return React__default.createElement("th", {
+      key: "th-" + index
+    }, column.title);
+  }))), React__default.createElement("tbody", null, show.map(function (data, index) {
+    return React__default.createElement("tr", {
+      key: rowkey ? data[rowkey] : "key-" + index
+    }, columns.map(function (column, index) {
+      return React__default.createElement("td", {
+        key: "column-" + index
+      }, column.render ? column.render(data) : column.dataIndex ? data[column.dataIndex] : '');
+    }));
+  }))), dataSource.length === 0 && React__default.createElement("div", {
+    className: 'component-ui-table-nor-data'
+  }, empty), pagination && dataSource.length > 0 && React__default.createElement("div", {
+    className: 'component-ui-table-pagin'
+  }, React__default.createElement(Pagin, {
+    value: React__default.createElement("span", null, React__default.createElement("svg", {
+      xmlns: 'http://www.w3.org/2000/svg',
+      width: '16',
+      height: '16',
+      fill: 'currentColor',
+      className: 'bi bi-chevron-left',
+      viewBox: '0 0 16 16'
+    }, React__default.createElement("path", {
+      fillRule: 'evenodd',
+      d: 'M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'
+    }))),
+    clickabel: page - 1 > 0,
+    onClick: function onClick() {
+      return setPage(page - 1);
+    }
+  }), paginSize.map(function (p) {
+    return React__default.createElement(Pagin, {
+      value: p,
+      onClick: function onClick() {
+        return setPage(p);
+      },
+      active: p === page,
+      key: "pagin-" + p
+    });
+  }), React__default.createElement(Pagin, {
+    value: React__default.createElement("span", null, React__default.createElement("svg", {
+      xmlns: 'http://www.w3.org/2000/svg',
+      width: '16',
+      height: '16',
+      fill: 'currentColor',
+      className: 'bi bi-chevron-right',
+      viewBox: '0 0 16 16'
+    }, React__default.createElement("path", {
+      fillRule: 'evenodd',
+      d: 'M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'
+    }))),
+    clickabel: paginSize[paginSize.length - 1] > page,
+    onClick: function onClick() {
+      return setPage(page + 1);
+    }
+  })));
+};
+
 exports.ButtonComponent = ButtonComponent;
 exports.CheckboxComponent = CheckboxComponent;
 exports.InputComponent = InputComponent;
 exports.RadioComponent = RadioComponent;
 exports.SelectComponent = SelectComponent;
+exports.TableComponent = TableComponent;
 //# sourceMappingURL=index.js.map
