@@ -5,167 +5,99 @@ import stylesAdmin from "../styles/admin.module.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ButtonComponent } from "my-lib-ui";
-import { ColumnsType } from "antd/lib/table";
-import { Table } from "antd";
+import { ColumnsType, ColumnType } from "antd/lib/table";
+import { Modal, Table } from "antd";
+import { WarningTwoTone, CheckCircleTwoTone } from "@ant-design/icons";
 import { getUsers, valideUserRequest } from "./api/user";
+
+type dataType = {
+  id: number;
+  validee: boolean;
+  type: string;
+  nom: string;
+  prenom: string;
+  email: string;
+  numero: string;
+  nationalite: string;
+};
 export default function Home() {
   const router = useRouter();
-  const [dataSource, setDataSource] = useState<dataType[]> ([
-    {
-      id: 1,
-      type: "entreprise",
-      nom: "Test",
-      prenom: "testt",
-      email: "test@gmail.com",
-      numero: "0404040404",
-      nationalite: "french",
-    },
-    {
-      id: 2,
-      type: "entreprise",
-      nom: "Test",
-      prenom: "testt",
-      email: "test@gmail.com",
-      numero: "0404040404",
-      nationalite: "french",
-    },
-    {
-      id: 3,
-      type: "entreprise",
-      nom: "Test",
-      prenom: "testt",
-      email: "test@gmail.com",
-      numero: "0404040404",
-      nationalite: "french",
-    },
-  ]);
-  const [dataSourceNewUsers, setDataSourceNewUsers] = useState<dataType[]>([
-    {
-      id: 1,
-      type: "entreprise",
-      nom: "Test",
-      prenom: "testt",
-      email: "test@gmail.com",
-      numero: "0404040404",
-      nationalite: "french",
-    },
-    {
-      id: 2,
-      type: "entreprise",
-      nom: "Test",
-      prenom: "testt",
-      email: "test@gmail.com",
-      numero: "0404040404",
-      nationalite: "french",
-    },
-    {
-      id: 3,
-      type: "entreprise",
-      nom: "Test",
-      prenom: "testt",
-      email: "test@gmail.com",
-      numero: "0404040404",
-      nationalite: "french",
-    },
-  ]);
-
-  type dataType = {
-    id: number;
-    type: string;
-    nom: string;
-    prenom: string;
-    email: string;
-    numero: string;
-    nationalite: string;
-  };
-
+  const [dataSource, setDataSource] = useState<dataType[]>([]);
+  const [update, setUpdate] = useState<number>(0);
   const [columns] = useState<ColumnsType<dataType>>([
     {
-      title: "Id",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-    },
-    {
-      title: "Nom",
-      dataIndex: "nom",
-      key: "nom",
-    },
-    {
-      title: "Prenom",
-      dataIndex: "prenom",
-      key: "prenom",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Numéro",
-      dataIndex: "numero",
-      key: "numero",
-    },
-    {
-      title: "Nationalité",
-      dataIndex: "nationalite",
-      key: "nationalite",
-    },
-  ]);
-
-  const [columnsNewUsers] = useState<ColumnsType<dataType>>([
-    {
-      title: "Id",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-    },
-    {
-      title: "Nom",
-      dataIndex: "nom",
-      key: "nom",
-    },
-    {
-      title: "Prenom",
-      dataIndex: "prenom",
-      key: "prenom",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Numéro",
-      dataIndex: "numero",
-      key: "numero",
-    },
-    {
-      title: "Nationalité",
-      dataIndex: "nationalite",
-      key: "nationalite",
-    },
-    {
       title: "Valider",
-      key: "validate",
-      render: (_, { id }) => {
+      key: "valide",
+      render: (_, { validee }) => {
+        return validee ? (
+          <div>
+            <CheckCircleTwoTone twoToneColor="#52c41a" className="large" />
+            <span className="ml-2 bold">Validé</span>
+          </div>
+        ) : (
+          <div>
+            <WarningTwoTone twoToneColor="#ffc107" className="large" />
+            <span className="ml-2 bold">En attente</span>
+          </div>
+        );
+      },
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
+      title: "Nom",
+      key: "nom",
+      render: (_, { nom, prenom }) => {
         return (
+          <span>
+            {nom} - {prenom}
+          </span>
+        );
+      },
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Numéro",
+      dataIndex: "numero",
+      key: "numero",
+    },
+    {
+      title: "Nationalité",
+      dataIndex: "nationalite",
+      key: "nationalite",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, { id, validee, nom }) => {
+        return validee ? (
           <ButtonComponent
-            onClick={() => HandleSubmit(id)}
             style={{
-              backgroundColor: "#e4f6ed",
+              backgroundColor: "#000000",
               fontSize: "0.75rem",
               height: "30px",
               borderRadius: "3px",
-              color: "black",
+              color: "white",
+            }}
+          >
+            Editer
+          </ButtonComponent>
+        ) : (
+          <ButtonComponent
+            onClick={() => validateUser(id)}
+            style={{
+              backgroundColor: "#C00000",
+              fontSize: "0.75rem",
+              height: "30px",
+              borderRadius: "3px",
+              color: "white",
             }}
           >
             Valider
@@ -174,28 +106,48 @@ export default function Home() {
       },
     },
   ]);
-  const HandleSubmit = (id: number) => {
-    valideUserRequest(id).then((res: number) => {
-      console.log(res);
-      const validateUser = dataSourceNewUsers.find((data) => data.id === res);
-      if (validateUser) {
-        setDataSource([validateUser, ...dataSource]);
-      }
-      dataSourceNewUsers.filter((data) => data.id !== res);
+
+  const validateUser = (id: number) => {
+    Modal.info({
+      title: "Validation de l'utilisateur",
+      content: <div>Voulez vous validé cet utilisateur ?</div>,
+      onOk: () => HandleSubmit(id),
     });
   };
+  const HandleSubmit = (id: number) => {
+    const _token = localStorage.getItem("token");
+    if (_token) {
+      valideUserRequest(_token, id).then((_data: any) => {
+        const { user } = _data;
+        if (user.id) {
+          setUpdate(id);
+        }
+      });
+    }
+  };
+  useEffect(() => {
+    if (update) {
+      setDataSource(
+        dataSource.map((data) =>
+          data.id === update ? { ...data, validee: true } : data
+        )
+      );
+      setUpdate(0);
+    }
+  }, [update, dataSource]);
 
   useEffect(() => {
     const _token = localStorage.getItem("token");
     if (_token) {
       getUsers(_token)
         .then((res) => {
-          setDataSourceNewUsers(res.filter((user: any) => user.validate));
-          setDataSource(res.filter((user: any) => !user.validate));
+          const { users } = res;
+          if (users) setDataSource(users.reverse());
+          else router.push("/connexion");
         })
         .catch((err) => console.log("erro", err));
     } else {
-      router.push("/login");
+      router.push("/connexion");
     }
   }, []);
 
@@ -206,7 +158,6 @@ export default function Home() {
         <meta name="description" content="Generated by create next app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <nav className="navbar">
         <div className={styles.logo}>
           <Image
@@ -218,7 +169,6 @@ export default function Home() {
           />
         </div>
         <div></div>
-        {/* COMPONENT */}
         <ButtonComponent onClick={() => router.push("/connexion")}>
           Connexion admin
         </ButtonComponent>
@@ -227,19 +177,13 @@ export default function Home() {
         <h1>Admin page</h1>
         <div className={stylesAdmin.tablesDiv}>
           <div>
-            <h2>Future users</h2>
-            <Table
-              className={stylesAdmin.table}
-              dataSource={dataSource}
-              columns={columnsNewUsers}
-            />
-          </div>
-          <div>
-            <h2>Users</h2>
+            <h2>Utilisateurs</h2>
             <Table
               className={stylesAdmin.table}
               dataSource={dataSource}
               columns={columns}
+              rowKey="id"
+              pagination={{ pageSize: 5 }}
             />
           </div>
         </div>
