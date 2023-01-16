@@ -35,6 +35,20 @@ export const inscriptionRequest = (body:any) => {
     })
 }
 
+export const deleteUserRequest = (id:number) => {
+  return axios.delete('http://localhost:8000/api/.user/delete/?id='+id, {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  })
+    .then( (res) => {
+      return res
+    })
+    .catch( (err) => {
+      return err
+    })
+}
+
 export const valideUserRequest = (token:string,id:any) => 
   axios.post('http://localhost:8000/api/inscription/valide-user/', {id},{headers:{Authorization:token}})
     .then((res) => res.data)

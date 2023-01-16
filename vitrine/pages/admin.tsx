@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { ButtonComponent, TableComponent, RecordType } from "my-lib-ui";
 import { Modal } from "antd";
 import { WarningTwoTone, CheckCircleTwoTone } from "@ant-design/icons";
-import { getUsers, valideUserRequest } from "./api/user";
+import { getUsers, valideUserRequest, deleteUserRequest } from "./api/user";
 
 type dataType = {
   id: number;
@@ -82,17 +82,32 @@ export default function Home() {
       key: "action",
       render: ({ id, validee, isloading }) => {
         return validee ? (
-          <ButtonComponent
-            style={{
-              backgroundColor: "#000000",
-              fontSize: "0.75rem",
-              height: "30px",
-              borderRadius: "3px",
-              color: "white",
-            }}
-          >
-            Editer
-          </ButtonComponent>
+          <div>
+            <ButtonComponent
+              style={{
+                backgroundColor: "#000000",
+                fontSize: "0.75rem",
+                height: "30px",
+                borderRadius: "3px",
+                color: "white",
+              }}
+            >
+              Editer
+            </ButtonComponent>
+            <ButtonComponent
+              onClick={() => deleteUser(id)}
+              style={{
+                backgroundColor: "rgb(192, 0, 0)",
+                fontSize: "0.75rem",
+                height: "30px",
+                borderRadius: "3px",
+                color: "white",
+                marginTop: "0.25rem"
+              }}
+            >
+              Supprimer
+            </ButtonComponent>
+          </div>
         ) : (
           <ButtonComponent
             onClick={() => validateUser(id)}
@@ -118,10 +133,21 @@ export default function Home() {
     },
   ]);
 
+  const deleteUser = (id:number) => {
+    setUpdate(id)
+    console.log(update);
+    // deleteUserRequest(update)
+    //   .then( (res) => {
+    //     console.log(res);
+    //   })
+  }
+
+
+
   const validateUser = (id: number) => {
     Modal.info({
       title: "Validation de l'utilisateur",
-      content: <div>Voulez vous validé cet utilisateur ?</div>,
+      content: <div>Souhaitez-vous valider cet utilisateur ?</div>,
       onOk: () => HandleSubmit(id), //,
     });
   };
