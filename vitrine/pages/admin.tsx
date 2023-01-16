@@ -25,6 +25,7 @@ export default function Home() {
   const router = useRouter();
   const [dataSource, setDataSource] = useState<dataType[]>([]);
   const [update, setUpdate] = useState<number>(0);
+  const [deleted, setDeleted] = useState<number>(0);
   const [isloading, setIsLoading] = useState<number>(0);
   const [columns] = useState<RecordType[]>([
     {
@@ -102,7 +103,7 @@ export default function Home() {
                 height: "30px",
                 borderRadius: "3px",
                 color: "white",
-                marginTop: "0.25rem"
+                marginTop: "0.25rem",
               }}
             >
               Supprimer
@@ -133,16 +134,13 @@ export default function Home() {
     },
   ]);
 
-  const deleteUser = (id:number) => {
-    setUpdate(id)
-    console.log(update);
-    // deleteUserRequest(update)
-    //   .then( (res) => {
-    //     console.log(res);
-    //   })
-  }
-
-
+  const deleteUser = (id: number) => {
+    Modal.info({
+      title: "Suppression de l'utilisateur",
+      content: <div>Souhaitez-vous Supprimer cet utilisateur ?</div>,
+      onOk: () => setDeleted(id), //,
+    });
+  };
 
   const validateUser = (id: number) => {
     Modal.info({
@@ -174,8 +172,11 @@ export default function Home() {
         )
       );
       setUpdate(0);
+    } else if (deleted) {
+      setDataSource(dataSource.filter((data) => data.id !== deleted));
+      setDeleted(0);
     }
-  }, [update, dataSource]);
+  }, [update, deleted, dataSource]);
 
   useEffect(() => {
     const _token = localStorage.getItem("token");
