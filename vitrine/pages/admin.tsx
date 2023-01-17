@@ -138,7 +138,7 @@ export default function Home() {
     Modal.info({
       title: "Suppression de l'utilisateur",
       content: <div>Souhaitez-vous Supprimer cet utilisateur ?</div>,
-      onOk: () => setDeleted(id), //,
+      onOk: () => HandleDelete(id), //,
     });
   };
 
@@ -148,6 +148,12 @@ export default function Home() {
       content: <div>Souhaitez-vous valider cet utilisateur ?</div>,
       onOk: () => HandleSubmit(id), //,
     });
+  };
+  const HandleDelete = (id: number) => {
+    deleteUserRequest(id)
+      .then((res) => console.log("----", res))
+      .catch((err) => console.log("err", err));
+    setDeleted(id);
   };
   const HandleSubmit = (id: number) => {
     const _token = localStorage.getItem("token");
