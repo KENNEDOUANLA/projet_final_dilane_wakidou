@@ -21,7 +21,8 @@ type dataType = {
   nationalite: string;
   isloading?: boolean;
 };
-type Form = {
+type Car = {
+  id?: number | null,
   name: string,
   image: string,
   price: string
@@ -30,30 +31,41 @@ type ColumnsType = {};
 export default function Home() {
   const router = useRouter();
   const [dataSource, setDataSource] = useState<dataType[]>([]);
-  const [carsDataSource, setCarsDataSource] = useState<dataType[]>([]);
+  const [carsDataSource, setCarsDataSource] = useState<Car[]>([]);
   const [update, setUpdate] = useState<number>(0);
   const [deleted, setDeleted] = useState<number>(0);
   const [carDeleted, setCarDeleted] = useState<number>(0);
   const [isloading, setIsLoading] = useState<number>(0);
   const [isAddCarModalOpen, setIsAddCarModalOpen] = useState(false);
-  const [form, setForm] = useState<Form>({ name:"", image:"", price: "" });
+  const [form, setForm] = useState<Car>({name:"", image:"", price: "" });
   const [carsColumns] = useState([
     {
       title: "Nom",
+      dataIndex: "name",
       key:"name"
     },
     {
       title: "Image",
-      key:"image"
+      dataIndex: "image",
+      key:"image",
+      render: ({image}) => {
+        return (
+          <img src={image} width="150px" height="150px" alt="" />
+        )
+      }
     },
     {
       title: "Prix",
-      key:"price"
+      dataIndex: "price",
+      key:"price",
+      render: ({price}) => {return (price+"€")}
     },
     {
       title: "Supprimer",
+      detaIndex: "supprimer",
       key: "supprimer",
       render: ({id}) => {
+        return (
         <ButtonComponent
           onClick={() => deleteCar(id)}
           style={{
@@ -67,6 +79,7 @@ export default function Home() {
         >
           Supprimer
         </ButtonComponent>
+        )
       }
     }
   ])
@@ -181,10 +194,8 @@ export default function Home() {
     addCarRequest(form)
       .then( (res) => {
         console.log(res);
-      })
-      .catch( (err) => {
-        console.log(err);
-        
+        setCarsDataSource(...carsDataSource, res.data)
+        setIsAddCarModalOpen(false)
       })
   };
 
@@ -217,6 +228,7 @@ export default function Home() {
     setDeleted(id);
   };
   const HandleDeleteCar = (id: number) => {
+    console.log(id);
     deleteCarRequest(id)
       .then((res) => console.log("----", res))
       .catch((err) => console.log("err", err));
@@ -236,7 +248,7 @@ export default function Home() {
     } else router.push("/connexion");
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     if (update) {
       setDataSource(
         dataSource.map((data) =>
@@ -270,7 +282,6 @@ export default function Home() {
         .then( (res) => {
           const { cars } = res;
           if (cars) setCarsDataSource(cars.reverse())
-          // else router.push("/connexion")
         })
     } else {
       router.push("/connexion");
