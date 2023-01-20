@@ -48,11 +48,36 @@ export const deleteUserRequest = (id:number) => {
       return err
     })
 }
+export const deleteCarRequest = (id:number) => {
+  return axios.delete('http://localhost:8000/api/.car/delete/?id='+id, {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  })
+    .then( (res) => {
+      return res
+    })
+    .catch( (err) => {
+      return err
+    })
+}
 
 export const valideUserRequest = (token:string,id:any) => 
   axios.post('http://localhost:8000/api/inscription/valide-user/', {id},{headers:{Authorization:token}})
     .then((res) => res.data)
 export const getUsers=(token:string) => axios.get(`${base_url}/users`,{headers:{Authorization:token}}).then(res=>res.data);
+export const getCars=(token:string) => axios.get(`${base_url}/cars`,{headers:{Authorization:token}}).then(res=>res.data);
+
+export const addCarRequest = (form:any) => {
+  return axios.post('http://localhost:8000/api/inscription/valide-user/')
+    .then( (res) => {
+      return res
+    })
+    .catch( (err) => {
+      return err
+    })
+}
+
 
 export default function handler(
   req: NextApiRequest,

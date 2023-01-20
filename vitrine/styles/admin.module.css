@@ -17,3 +17,11 @@
 .table thead tr th {
     background-color: #e4f6ed!important;
 }
+.label {
+    margin: 0.5rem 0;
+    display: block;
+    font-weight: 500;
+}
+.form {
+    margin: 2rem 0;
+}

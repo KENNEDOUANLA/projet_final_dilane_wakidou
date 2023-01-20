@@ -4,10 +4,11 @@ import styles from "../styles/Home.module.css";
 import stylesAdmin from "../styles/admin.module.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ButtonComponent, TableComponent, RecordType } from "my-lib-ui";
-import { Modal } from "antd";
+import { ButtonComponent, TableComponent, RecordType, InputComponent } from "my-lib-ui";
+import { Modal, Input } from "antd";
 import { WarningTwoTone, CheckCircleTwoTone } from "@ant-design/icons";
-import { getUsers, valideUserRequest, deleteUserRequest } from "./api/user";
+import { getUsers, getCars, valideUserRequest, deleteUserRequest, addCarRequest, deleteCarRequest } from "./api/user";
+import { Url } from "url";
 
 type dataType = {
   id: number;
@@ -20,13 +21,55 @@ type dataType = {
   nationalite: string;
   isloading?: boolean;
 };
+type Form = {
+  name: string,
+  image: string,
+  price: string
+}
 type ColumnsType = {};
 export default function Home() {
   const router = useRouter();
   const [dataSource, setDataSource] = useState<dataType[]>([]);
+  const [carsDataSource, setCarsDataSource] = useState<dataType[]>([]);
   const [update, setUpdate] = useState<number>(0);
   const [deleted, setDeleted] = useState<number>(0);
+  const [carDeleted, setCarDeleted] = useState<number>(0);
   const [isloading, setIsLoading] = useState<number>(0);
+  const [isAddCarModalOpen, setIsAddCarModalOpen] = useState(false);
+  const [form, setForm] = useState<Form>({ name:"", image:"", price: "" });
+  const [carsColumns] = useState([
+    {
+      title: "Nom",
+      key:"name"
+    },
+    {
+      title: "Image",
+      key:"image"
+    },
+    {
+      title: "Prix",
+      key:"price"
+    },
+    {
+      title: "Supprimer",
+      key: "supprimer",
+      render: ({id}) => {
+        <ButtonComponent
+          onClick={() => deleteCar(id)}
+          style={{
+            backgroundColor: "rgb(192, 0, 0)",
+            fontSize: "0.75rem",
+            height: "30px",
+            borderRadius: "3px",
+            color: "white",
+            marginTop: "0.25rem",
+          }}
+        >
+          Supprimer
+        </ButtonComponent>
+      }
+    }
+  ])
   const [columns] = useState<RecordType[]>([
     {
       title: "Status",
@@ -134,11 +177,29 @@ export default function Home() {
     },
   ]);
 
+  const addCar = () => {
+    addCarRequest(form)
+      .then( (res) => {
+        console.log(res);
+      })
+      .catch( (err) => {
+        console.log(err);
+        
+      })
+  };
+
   const deleteUser = (id: number) => {
     Modal.info({
       title: "Suppression de l'utilisateur",
-      content: <div>Souhaitez-vous Supprimer cet utilisateur ?</div>,
+      content: <div>Souhaitez-vous supprimer cet utilisateur ?</div>,
       onOk: () => HandleDelete(id), //,
+    });
+  };
+  const deleteCar = (id: number) => {
+    Modal.info({
+      title: "Suppression de la voiture",
+      content: <div>Souhaitez-vous supprimer cet voiture ?</div>,
+      onOk: () => HandleDeleteCar(id), //,
     });
   };
 
@@ -155,6 +216,12 @@ export default function Home() {
       .catch((err) => console.log("err", err));
     setDeleted(id);
   };
+  const HandleDeleteCar = (id: number) => {
+    deleteCarRequest(id)
+      .then((res) => console.log("----", res))
+      .catch((err) => console.log("err", err));
+    setCarDeleted(id);
+  };
   const HandleSubmit = (id: number) => {
     const _token = localStorage.getItem("token");
     if (_token) {
@@ -168,6 +235,7 @@ export default function Home() {
       });
     } else router.push("/connexion");
   };
+
   useEffect(() => {
     if (update) {
       setDataSource(
@@ -182,7 +250,11 @@ export default function Home() {
       setDataSource(dataSource.filter((data) => data.id !== deleted));
       setDeleted(0);
     }
-  }, [update, deleted, dataSource]);
+    else if(carDeleted) {
+      setCarsDataSource(carsDataSource.filter((data) => data.id !== carDeleted));
+      setCarDeleted(0)
+    }
+  }, [update, deleted, carDeleted, dataSource]);
 
   useEffect(() => {
     const _token = localStorage.getItem("token");
@@ -194,6 +266,12 @@ export default function Home() {
           else router.push("/connexion");
         })
         .catch((err) => console.log("erro", err));
+      getCars(_token)
+        .then( (res) => {
+          const { cars } = res;
+          if (cars) setCarsDataSource(cars.reverse())
+          // else router.push("/connexion")
+        })
     } else {
       router.push("/connexion");
     }
@@ -241,6 +319,39 @@ export default function Home() {
               pagination={{ pageSize: 5 }}
             />
           </div>
+        </div>
+      </div>
+      <div className={stylesAdmin.tablesDiv}>
+        <div>
+          <h2>Voitures</h2>
+          <ButtonComponent
+              style={{
+                backgroundColor: "#000000",
+                fontSize: "0.75rem",
+                height: "30px",
+                width: "150px",
+                borderRadius: "3px",
+                color: "white",
+              }}
+              onClick={ () => setIsAddCarModalOpen(true)}
+            >
+              Ajouter une voiture
+            </ButtonComponent>
+          <Modal title="Ajouter une voiture" open={isAddCarModalOpen} onOk={ () => addCar()} onCancel={ () => setIsAddCarModalOpen(false)}>
+            <form className={stylesAdmin.form}>
+              <label className={stylesAdmin.label} htmlFor="nom">Nom :</label>
+              <InputComponent label='Nom' value={form.name}  onChange={(e) => setForm({ ...form, name: e.target.value })}/>
+              <label className={stylesAdmin.label} htmlFor="image">Image (URL) :</label>
+              <InputComponent label='Image' value={form.image}  onChange={(e) => setForm({ ...form, image: e.target.value })}/>
+              <label className={stylesAdmin.label} htmlFor="prix">Prix (€) :</label>
+              <InputComponent label='Prix' value={form.price}  onChange={(e) => setForm({ ...form, price: e.target.value })}/>
+            </form>
+          </Modal>
+          <TableComponent
+            dataSource={carsDataSource}
+            columns={carsColumns}
+            pagination={{ pageSize: 5 }}
+          />
         </div>
       </div>
 
