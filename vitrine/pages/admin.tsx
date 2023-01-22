@@ -4,11 +4,18 @@ import styles from "../styles/Home.module.css";
 import stylesAdmin from "../styles/admin.module.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ButtonComponent, TableComponent, RecordType, InputComponent } from "my-lib-ui";
+import {
+  ButtonComponent,
+  TableComponent,
+  RecordType,
+  InputComponent,
+} from "my-lib-ui";
 import { Modal, Input } from "antd";
 import { WarningTwoTone, CheckCircleTwoTone } from "@ant-design/icons";
-import { getUsers, getCars, valideUserRequest, deleteUserRequest, addCarRequest, deleteCarRequest } from "./api/user";
+import { getUsers, valideUserRequest, deleteUserRequest } from "./api/user";
+import { getCars, addCarRequest, deleteCarRequest } from "./api/car";
 import { Url } from "url";
+import { showConfirm } from "./modal";
 
 type dataType = {
   id: number;
@@ -22,11 +29,11 @@ type dataType = {
   isloading?: boolean;
 };
 type Car = {
-  id?: number | null,
-  name: string,
-  image: string,
-  price: string
-}
+  id: number;
+  name: string;
+  image: string;
+  price: string;
+};
 type ColumnsType = {};
 export default function Home() {
   const router = useRouter();
@@ -37,52 +44,50 @@ export default function Home() {
   const [carDeleted, setCarDeleted] = useState<number>(0);
   const [isloading, setIsLoading] = useState<number>(0);
   const [isAddCarModalOpen, setIsAddCarModalOpen] = useState(false);
-  const [form, setForm] = useState<Car>({name:"", image:"", price: "" });
-  const [carsColumns] = useState([
+  const [form, setForm] = useState({ name: "", image: "", price: "" });
+  const [carsColumns] = useState<RecordType[]>([
     {
       title: "Nom",
       dataIndex: "name",
-      key:"name"
+      key: "name",
     },
     {
       title: "Image",
       dataIndex: "image",
-      key:"image",
-      render: ({image}) => {
-        return (
-          <img src={image} width="150px" height="150px" alt="" />
-        )
-      }
+      key: "image",
+      render: ({ image }) => {
+        return <img src={image} width="150px" height="150px" alt="" />;
+      },
     },
     {
       title: "Prix",
       dataIndex: "price",
-      key:"price",
-      render: ({price}) => {return (price+"€")}
+      key: "price",
+      render: ({ price }) => <span> {price} €</span>,
     },
     {
       title: "Supprimer",
-      detaIndex: "supprimer",
+      dataIndex: "supprimer",
       key: "supprimer",
-      render: ({id}) => {
+      render: ({ id }) => {
         return (
-        <ButtonComponent
-          onClick={() => deleteCar(id)}
-          style={{
-            backgroundColor: "rgb(192, 0, 0)",
-            fontSize: "0.75rem",
-            height: "30px",
-            borderRadius: "3px",
-            color: "white",
-            marginTop: "0.25rem",
-          }}
-        >
-          Supprimer
-        </ButtonComponent>
-        )
-      }
-    }
-  ])
+          <ButtonComponent
+            onClick={() => deleteCar(id)}
+            style={{
+              backgroundColor: "rgb(192, 0, 0)",
+              fontSize: "0.75rem",
+              height: "30px",
+              borderRadius: "3px",
+              color: "white",
+              marginTop: "0.25rem",
+            }}
+          >
+            Supprimer
+          </ButtonComponent>
+        );
+      },
+    },
+  ]);
   const [columns] = useState<RecordType[]>([
     {
       title: "Status",
@@ -191,49 +196,55 @@ export default function Home() {
   ]);
 
   const addCar = () => {
-    addCarRequest(form)
-      .then( (res) => {
-        console.log(res);
-        setCarsDataSource(...carsDataSource, res.data)
-        setIsAddCarModalOpen(false)
-      })
+    addCarRequest(form).then(({ car }) => {
+      setCarsDataSource([...carsDataSource, car]);
+      setIsAddCarModalOpen(false);
+    });
   };
 
   const deleteUser = (id: number) => {
-    Modal.info({
+    showConfirm({
       title: "Suppression de l'utilisateur",
       content: <div>Souhaitez-vous supprimer cet utilisateur ?</div>,
-      onOk: () => HandleDelete(id), //,
+      okText: "Supprimer",
+      okType: "danger",
+      onOk: () => HandleDelete(id),
     });
   };
   const deleteCar = (id: number) => {
-    Modal.info({
+    showConfirm({
       title: "Suppression de la voiture",
       content: <div>Souhaitez-vous supprimer cet voiture ?</div>,
-      onOk: () => HandleDeleteCar(id), //,
+      okText: "Supprimer",
+      okType: "danger",
+      onOk: () => HandleDeleteCar(id),
     });
   };
 
   const validateUser = (id: number) => {
-    Modal.info({
+    showConfirm({
       title: "Validation de l'utilisateur",
       content: <div>Souhaitez-vous valider cet utilisateur ?</div>,
-      onOk: () => HandleSubmit(id), //,
+      okText: "Validé",
+      okType: "primary",
+      onOk: () => HandleSubmit(id),
     });
   };
+
   const HandleDelete = (id: number) => {
     deleteUserRequest(id)
       .then((res) => console.log("----", res))
       .catch((err) => console.log("err", err));
     setDeleted(id);
   };
+
   const HandleDeleteCar = (id: number) => {
     console.log(id);
     deleteCarRequest(id)
-      .then((res) => console.log("----", res))
-      .catch((err) => console.log("err", err));
-    setCarDeleted(id);
+      .then((res) => setCarDeleted(id))
+      .catch((err) => setCarDeleted(0));
   };
+
   const HandleSubmit = (id: number) => {
     const _token = localStorage.getItem("token");
     if (_token) {
@@ -248,7 +259,7 @@ export default function Home() {
     } else router.push("/connexion");
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     if (update) {
       setDataSource(
         dataSource.map((data) =>
@@ -261,10 +272,11 @@ export default function Home() {
     } else if (deleted) {
       setDataSource(dataSource.filter((data) => data.id !== deleted));
       setDeleted(0);
-    }
-    else if(carDeleted) {
-      setCarsDataSource(carsDataSource.filter((data) => data.id !== carDeleted));
-      setCarDeleted(0)
+    } else if (carDeleted) {
+      setCarsDataSource(
+        carsDataSource.filter((data) => data.id !== carDeleted)
+      );
+      setCarDeleted(0);
     }
   }, [update, deleted, carDeleted, dataSource]);
 
@@ -278,15 +290,15 @@ export default function Home() {
           else router.push("/connexion");
         })
         .catch((err) => console.log("erro", err));
-      getCars(_token)
-        .then( (res) => {
-          const { cars } = res;
-          if (cars) setCarsDataSource(cars.reverse())
-        })
+      getCars(_token).then((res) => {
+        const { cars } = res;
+        if (cars) setCarsDataSource(cars.reverse());
+      });
     } else {
       router.push("/connexion");
     }
   }, []);
+
   useEffect(() => {
     if (isloading) {
       setDataSource(
@@ -336,26 +348,49 @@ export default function Home() {
         <div>
           <h2>Voitures</h2>
           <ButtonComponent
-              style={{
-                backgroundColor: "#000000",
-                fontSize: "0.75rem",
-                height: "30px",
-                width: "150px",
-                borderRadius: "3px",
-                color: "white",
-              }}
-              onClick={ () => setIsAddCarModalOpen(true)}
-            >
-              Ajouter une voiture
-            </ButtonComponent>
-          <Modal title="Ajouter une voiture" open={isAddCarModalOpen} onOk={ () => addCar()} onCancel={ () => setIsAddCarModalOpen(false)}>
+            style={{
+              backgroundColor: "#000000",
+              fontSize: "0.75rem",
+              height: "30px",
+              width: "150px",
+              borderRadius: "3px",
+              color: "white",
+            }}
+            onClick={() => setIsAddCarModalOpen(true)}
+          >
+            Ajouter une voiture
+          </ButtonComponent>
+          <Modal
+            title="Ajouter une voiture"
+            open={isAddCarModalOpen}
+            onOk={() => addCar()}
+            onCancel={() => setIsAddCarModalOpen(false)}
+          >
             <form className={stylesAdmin.form}>
-              <label className={stylesAdmin.label} htmlFor="nom">Nom :</label>
-              <InputComponent label='Nom' value={form.name}  onChange={(e) => setForm({ ...form, name: e.target.value })}/>
-              <label className={stylesAdmin.label} htmlFor="image">Image (URL) :</label>
-              <InputComponent label='Image' value={form.image}  onChange={(e) => setForm({ ...form, image: e.target.value })}/>
-              <label className={stylesAdmin.label} htmlFor="prix">Prix (€) :</label>
-              <InputComponent label='Prix' value={form.price}  onChange={(e) => setForm({ ...form, price: e.target.value })}/>
+              <label className={stylesAdmin.label} htmlFor="nom">
+                Nom :
+              </label>
+              <InputComponent
+                label="Nom"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+              <label className={stylesAdmin.label} htmlFor="image">
+                Image (URL) :
+              </label>
+              <InputComponent
+                label="Image"
+                value={form.image}
+                onChange={(e) => setForm({ ...form, image: e.target.value })}
+              />
+              <label className={stylesAdmin.label} htmlFor="prix">
+                Prix (€) :
+              </label>
+              <InputComponent
+                label="Prix"
+                value={form.price}
+                onChange={(e) => setForm({ ...form, price: e.target.value })}
+              />
             </form>
           </Modal>
           <TableComponent
