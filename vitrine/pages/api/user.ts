@@ -34,49 +34,20 @@ export const inscriptionRequest = (body:any) => {
       return err
     })
 }
+export const getUsers=(token:string) => axios.get(`${base_url}/users`,{headers:{Authorization:token}}).then(res=>res.data);
+export const deleteUserRequest = (id:number) => axios.delete('http://localhost:8000/api/.user/delete/?id='+id, {
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  })
+    .then((res) => res.data)
 
-export const deleteUserRequest = (id:number) => {
-  return axios.delete('http://localhost:8000/api/.user/delete/?id='+id, {
-    headers: {
-      Authorization: localStorage.getItem('token')
-    }
-  })
-    .then( (res) => {
-      return res
-    })
-    .catch( (err) => {
-      return err
-    })
-}
-export const deleteCarRequest = (id:number) => {
-  return axios.delete('http://localhost:5000/car/'+id, {
-    headers: {
-      Authorization: localStorage.getItem('token')
-    }
-  })
-    .then( (res) => {
-      return res
-    })
-    .catch( (err) => {
-      return err
-    })
-}
 
 export const valideUserRequest = (token:string,id:any) => 
   axios.post('http://localhost:8000/api/inscription/valide-user/', {id},{headers:{Authorization:token}})
     .then((res) => res.data)
-export const getUsers=(token:string) => axios.get(`${base_url}/users`,{headers:{Authorization:token}}).then(res=>res.data);
-export const getCars=(token:string) => axios.get(`http://localhost:5000/car`,{headers:{Authorization:token}}).then(res=>res.data);
 
-export const addCarRequest = (form:any) => {
-  return axios.post('http://localhost:5000/car', form, {headers: {Authorization: localStorage.getItem('token')}})
-    .then( (res) => {
-      return res
-    })
-    .catch( (err) => {
-      return err
-    })
-}
+
 
 
 export default function handler(
