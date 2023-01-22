@@ -327,8 +327,8 @@ export default function Home() {
           />
         </div>
         <div></div>
-        <ButtonComponent onClick={() => router.push("/connexion")}>
-          Connexion admin
+        <ButtonComponent onClick={() => router.push("/")}>
+          Accueil
         </ButtonComponent>
       </nav>
       <div className={stylesAdmin.container}>
