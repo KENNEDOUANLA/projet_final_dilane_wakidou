@@ -15,7 +15,7 @@ import { WarningTwoTone, CheckCircleTwoTone } from "@ant-design/icons";
 import { getUsers, valideUserRequest, deleteUserRequest } from "./api/user";
 import { getCars, addCarRequest, deleteCarRequest } from "./api/car";
 import { Url } from "url";
-import { showConfirm } from "./modal";
+import { NewCar, showConfirm } from "./modal";
 
 type dataType = {
   id: number;
@@ -34,7 +34,6 @@ type Car = {
   image: string;
   price: string;
 };
-type ColumnsType = {};
 export default function Home() {
   const router = useRouter();
   const [dataSource, setDataSource] = useState<dataType[]>([]);
@@ -44,7 +43,6 @@ export default function Home() {
   const [carDeleted, setCarDeleted] = useState<number>(0);
   const [isloading, setIsLoading] = useState<number>(0);
   const [isAddCarModalOpen, setIsAddCarModalOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", image: "", price: "" });
   const [carsColumns] = useState<RecordType[]>([
     {
       title: "Nom",
@@ -56,6 +54,7 @@ export default function Home() {
       dataIndex: "image",
       key: "image",
       render: ({ image }) => {
+        // eslint-disable-next-line @next/next/no-img-element
         return <img src={image} width="150px" height="150px" alt="" />;
       },
     },
@@ -183,6 +182,7 @@ export default function Home() {
           >
             Valider
             {isloading && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src="/loading.svg"
                 className="loading"
@@ -195,11 +195,12 @@ export default function Home() {
     },
   ]);
 
-  const addCar = () => {
-    addCarRequest(form).then(({ car }) => {
-      setCarsDataSource([...carsDataSource, car]);
+  const addCar = (car: any) => {
+    console.log("car=>", car);
+    if (car) {
+      setCarsDataSource([car, ...carsDataSource]);
       setIsAddCarModalOpen(false);
-    });
+    }
   };
 
   const deleteUser = (id: number) => {
@@ -211,6 +212,7 @@ export default function Home() {
       onOk: () => HandleDelete(id),
     });
   };
+
   const deleteCar = (id: number) => {
     showConfirm({
       title: "Suppression de la voiture",
@@ -360,39 +362,12 @@ export default function Home() {
           >
             Ajouter une voiture
           </ButtonComponent>
-          <Modal
+          <NewCar
             title="Ajouter une voiture"
             open={isAddCarModalOpen}
-            onOk={() => addCar()}
+            onSubmit={addCar}
             onCancel={() => setIsAddCarModalOpen(false)}
-          >
-            <form className={stylesAdmin.form}>
-              <label className={stylesAdmin.label} htmlFor="nom">
-                Nom :
-              </label>
-              <InputComponent
-                label="Nom"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-              <label className={stylesAdmin.label} htmlFor="image">
-                Image (URL) :
-              </label>
-              <InputComponent
-                label="Image"
-                value={form.image}
-                onChange={(e) => setForm({ ...form, image: e.target.value })}
-              />
-              <label className={stylesAdmin.label} htmlFor="prix">
-                Prix (€) :
-              </label>
-              <InputComponent
-                label="Prix"
-                value={form.price}
-                onChange={(e) => setForm({ ...form, price: e.target.value })}
-              />
-            </form>
-          </Modal>
+          />
           <TableComponent
             dataSource={carsDataSource}
             columns={carsColumns}

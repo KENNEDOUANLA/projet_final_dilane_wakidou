@@ -24,4 +24,34 @@
 }
 .form {
     margin: 2rem 0;
+    /* max-height: 500px;
+    overflow-y: auto; */
+}
+.file{
+    display: flex;
+    justify-content: center;
+}
+.block_file{
+    display: flex;
+    justify-content: space-between;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-upload-wrapper.ant-upload-picture-card-wrapper{
+width: fit-content !important;
+}
+.detais_opener{
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.25rem 0;
+    cursor: pointer;
+}
+.detais_text{
+    margin-right: 1rem;
+    color: rgb(147, 152, 156);
+}
+.detais_input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
 }
